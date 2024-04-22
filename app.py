@@ -1,4 +1,4 @@
-# app.py
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -29,6 +29,9 @@ def preprocess_data(data):
         for col in numerical_columns:
             data[col] = data[col].fillna(data[col].mean())
         st.info("Filled missing values with column mean for numerical columns.")
+    elif missing_option == "Do nothing":
+        data = data.fillna(0)
+        st.info("Filled all missing values with zero.")
     return data
 
 def plot_confusion_matrix(y_test, predictions):
@@ -172,9 +175,14 @@ def main():
         else:
             if st.sidebar.button("Run Classification"):
                 X, y = data[selected_features], data[target_variable]
-                if y.dtype == 'object' or len(y.unique()) > 2:
+                
+                if len(np.unique(y)) <= 2:
                     le = LabelEncoder()
                     y = le.fit_transform(y)
+                else:
+                    st.error("The target variable seems to be continuous. Please use a regression model or ensure it's a binary/multiclass classification problem.")
+                    return
+
 
                 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
