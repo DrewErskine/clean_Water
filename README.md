@@ -24,6 +24,3 @@ This application is a Streamlit dashboard used for data inspection, normalizatio
 1. Start the Streamlit app by running `streamlit run app.py` in your terminal.
 2. Use the sidebar to upload a CSV file and select the desired preprocessing and machine learning settings.
 3. Click "Run Classification" to train the model and view the results.
-
-## Issues
-- N/A
